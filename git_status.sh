@@ -79,7 +79,12 @@ if [ ! -z "$1" ] || [ ! -z "$2" ]; then
 	fi
 elif [ "$1" == "" ]; then
 	branch_name="branch-4.5"
-	echo -e "No argument has been provided for branch name - the default branch set to: ${underline}branch-4.5${normal}"
+	if [ -n "$(git branch --list -a origin/$branch_name)" ]; then
+		echo -e "No argument has been provided for branch name - the default branch set to: ${underline}branch-4.5${normal}"
+	else
+		echo -e "Default branch is: ${underline}${branch_name}${normal} - ${red}not exist in GIT${normal} - please check your input and run again"
+		exit 2
+	fi	
 fi		
 
 echo "========================================================="
